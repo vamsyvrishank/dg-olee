@@ -5,6 +5,8 @@
 Data Engineering
 1. [[personal vault/Data Engineering/Kafka/Kafka Notes\|Kafka Notes]]
 
+[[personal vault/Data Structures and Algorithms/\|personal vault/Data Structures and Algorithms/]]
+
 [[personal vault/Interview Prep/Topics/DSA\|DSA]]
-1. [[personal vault/DSA/Index of  DSA\|Index of  DSA]]
-2. 
+2. [[personal vault/Data Structures and Algorithms/Index of  DSA\|Index of  DSA]]
+3. 
