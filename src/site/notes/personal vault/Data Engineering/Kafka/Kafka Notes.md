@@ -170,3 +170,4 @@ kafka-configs.sh --alter --topic my-topic \
 ```
 
 Broker-level configs are defaults; topic-level configs override them.
+
