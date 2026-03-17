@@ -61,7 +61,6 @@ To make your data fault-tolerant and highly-available, every topic can be **rep
 
 This primer should be sufficient for an introduction. The [Design](https://kafka.apache.org/documentation/#design) section of the documentation explains Kafka’s various concepts in full detail, if you are interested.
 
-
 #### Kafka API's
 
 - The [Admin API](https://kafka.apache.org/documentation.html#adminapi) to manage and inspect topics, brokers, and other Kafka objects.
@@ -70,6 +69,138 @@ This primer should be sufficient for an introduction. The [Design](https://kafk
 - The [Kafka Streams API](https://kafka.apache.org/documentation/streams) to implement stream processing applications and microservices. It provides higher-level functions to process event streams, including transformations, stateful operations like aggregations and joins, windowing, processing based on event-time, and more. Input is read from one or more topics in order to generate output to one or more topics, effectively transforming the input streams to output streams.
 - The [Kafka Connect API](https://kafka.apache.org/documentation.html#connect) to build and run reusable data import/export connectors that consume (read) or produce (write) streams of events from and to external systems and applications so they can integrate with Kafka. For example, a connector to a relational database like PostgreSQL might capture every change to a set of tables. However, in practice, you typically don’t need to implement your own connectors because the Kafka community already provides hundreds of ready-to-use connectors.
 
+#### Kafka Delivery Semantics
+
+The three guarantees Kafka can provide, and what they actually mean in practice:
+
+##### At-most-once
+
+Messages are delivered **zero or one time**. If something fails, the message is lost — no retry.
+
+**How it happens:**
+
+```
+Producer sends message → broker receives it
+Consumer reads message → commits offset immediately
+Consumer processes message → crashes mid-processing
+Message is gone. Offset already moved forward.
+```
+
+**When to use:** Metrics, logging, telemetry — where losing an occasional data point is acceptable and you want maximum throughput with zero overhead.
+
+##### At-least-once
+
+Messages are delivered **one or more times**. No data loss, but duplicates are possible.
+
+**How it happens:**
+
+```
+Producer sends message → broker receives it
+Consumer reads message → processes it → crashes before committing offset
+Consumer restarts → re-reads same message → processes it again
+Duplicate.
+```
+
+**On the producer side** — if the broker ACK is lost in transit:
+
+```
+Producer sends → broker writes → ACK lost in network
+Producer retries → broker writes again → duplicate in the log
+```
+
+**When to use:** Most pipelines where duplicates can be handled downstream (idempotent consumers, deduplication by ID). This is the **default** and most common setting.
+
+##### Exactly-once
+
+Messages are delivered **exactly one time**. No loss, no duplicates. The hardest guarantee.
+
+Kafka achieves this through two mechanisms working together:
+
+**Idempotent producer** — each message gets a sequence number. Broker deduplicates retries automatically:
+
+```
+Producer sends msg (seq=42) → broker writes
+ACK lost → producer retries msg (seq=42)
+Broker sees seq=42 already written → discards duplicate
+```
+
+Enable it with:
+
+```java
+props.put("enable.idempotence", "true");
+```
+
+**Transactions** — atomic write across multiple partitions/topics. Either all writes commit or none do:
+
+```java
+producer.initTransactions();
+producer.beginTransaction();
+producer.send(record1);
+producer.send(record2);
+producer.commitTransaction(); // atomic
+```
+
+**Exactly-once end-to-end** (consume → process → produce) requires Kafka Streams or careful manual coordination:
+
+```
+Read from topic A
+Process
+Write to topic B     } these three happen atomically
+Commit offset        }
+```
+
+##### The tradeoff table
+
+|Semantic|Data loss|Duplicates|Throughput|Complexity|
+|---|---|---|---|---|
+|At-most-once|Possible|Never|Highest|Lowest|
+|At-least-once|Never|Possible|High|Low|
+|Exactly-once|Never|Never|Lower|High|
+
+---
+
+#### Key producer configs
+
+```java
+// At-most-once
+acks = 0              // don't wait for broker ACK at all
+retries = 0
+
+// At-least-once (default behavior)
+acks = all            // wait for all in-sync replicas
+retries = Integer.MAX_VALUE
+
+// Exactly-once
+enable.idempotence = true    // implies acks=all, retries=MAX
+transactional.id = "my-app"  // required for transactions
+```
+
+---
+
+#### Key consumer configs
+
+```java
+// At-most-once — commit before processing
+consumer.commitSync();
+process(record);       // if this crashes, message is lost
+
+// At-least-once — commit after processing
+process(record);
+consumer.commitSync(); // if this crashes before commit, reprocessed
+
+// auto commit (default) is effectively at-most-once
+enable.auto.commit = true   // commits on a timer, not after processing
+```
+
+
+
+####  Market data pipeline relevance
+
+Since we are building a market data pipeline with Kafka:
+
+- **Feed handler → Kafka** — at-least-once is fine here. Tick data has sequence numbers and timestamps, so downstream deduplication by timestamp/sequence is straightforward.
+- **Kafka → KDB+ writer** — this is where exactly-once matters most. A duplicate tick written to KDB+ corrupts your OHLC bars and VWAP calculations. Either use idempotent writes keyed on timestamp+symbol, or use Kafka transactions if writing to multiple tables atomically.
+- **`enable.auto.commit=false`** — always in a financial data pipeline. Commit only after the KDB+ write is confirmed.
 #### Kafka Use cases
 
 **Messaging & Event Streaming**
@@ -143,7 +274,6 @@ When the partition log exceeds this size, oldest segments are deleted.
 
 Both can be combined — whichever limit is hit first triggers deletion.
 
----
 
 ### Log Compaction (Special Mode)
 
