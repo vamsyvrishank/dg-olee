@@ -4,6 +4,8 @@
 
 Data Engineering
 1. [[personal vault/Data Engineering/Kafka/Kafka Notes\|Kafka Notes]]
+2. [[KDB/q+ Notes\|KDB/q+ Notes]]
+3. 
 
 
 Data Structures and Algorithms
