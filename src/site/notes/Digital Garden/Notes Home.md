@@ -7,6 +7,9 @@ Data Engineering
 2. [[KDB/q+ Notes\|KDB/q+ Notes]]
 3. 
 
+Machine Learning 
+1. [[Machine Learning/Machine Learning Notes\|Machine Learning Notes]]
+2. 
 
 Data Structures and Algorithms
 1. [[personal vault/Data Structures and Algorithms/DSA patterns\|DSA patterns]]
