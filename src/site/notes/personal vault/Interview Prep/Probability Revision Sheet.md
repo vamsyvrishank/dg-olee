@@ -3,7 +3,10 @@
 ---
 
 
-[quant_revision_sheet.pdf](/img/user/personal%20vault/Interview%20Prep/quant_revision_sheet.pdf)
+<iframe src="/img/user/personal%20vault/Interview%20Prep/quant_revision_sheet.pdf" width="100%" height="900px" title="quant_revision_sheet.pdf" style="border:1px solid #ccc;"></iframe>
+
+
+<iframe src="/img/user/personal%20vault/Interview%20Prep/Probability%20Book/Probability%20and%20Stats%20Cheatsheet.pdf" width="100%" height="900px" title="Probability and Stats Cheatsheet.pdf" style="border:1px solid #ccc;"></iframe>
 
 
 Probability Core Ideas.
