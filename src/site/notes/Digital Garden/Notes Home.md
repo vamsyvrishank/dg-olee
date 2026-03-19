@@ -16,7 +16,10 @@ Data Structures and Algorithms
 2. [[personal vault/Data Structures and Algorithms/Index of  DSA\|Index of  DSA]]
 3. [[personal vault/Data Structures and Algorithms/Solution Templates\|Solution Templates]]
 
-
+Quant Revision
+1. [[personal vault/Interview Prep/Probability Revision Sheet\|Probability Revision Sheet]]
+2. [quant_revision_sheet.pdf](/img/user/personal%20vault/Interview%20Prep/quant_revision_sheet.pdf)
+3. 
 
 System Design Key Concepts
 
