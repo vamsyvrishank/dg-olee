@@ -18,9 +18,9 @@ Data Structures and Algorithms
 
 Quant Revision
 1. [[personal vault/Interview Prep/Probability Revision Sheet\|Probability Revision Sheet]]
-2. [quant_revision_sheet.pdf](/img/user/personal%20vault/Interview%20Prep/quant_revision_sheet.pdf)
-3. [Probability and Stats Cheatsheet.pdf](/img/user/personal%20vault/Interview%20Prep/Probability%20Book/Probability%20and%20Stats%20Cheatsheet.pdf)
-4. 
+2. Important pdfs and cheatsheets
+	1. [Probability and Stats Cheatsheet.pdf](/img/user/personal%20vault/Interview%20Prep/Probability%20Book/Probability%20and%20Stats%20Cheatsheet.pdf)
+	2. [quant_revision_sheet.pdf](/img/user/personal%20vault/Interview%20Prep/quant_revision_sheet.pdf)
 
 System Design Key Concepts
 
