@@ -5,7 +5,9 @@
 Data Engineering
 1. [[personal vault/Data Engineering/Kafka/Kafka Notes\|Kafka Notes]]
 2. [[KDB/q+ Notes\|KDB/q+ Notes]]
-3. 
+
+SQL 
+1. [[personal vault/Interview Prep/SQL Interview Prep\|SQL Interview Prep]]
 
 Machine Learning 
 1. [[Machine Learning/Machine Learning Notes\|Machine Learning Notes]]
