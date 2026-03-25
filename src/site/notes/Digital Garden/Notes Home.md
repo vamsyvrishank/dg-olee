@@ -9,9 +9,11 @@ Data Engineering
 SQL 
 1. [[personal vault/Interview Prep/SQL Interview Prep\|SQL Interview Prep]]
 
+
 Machine Learning 
-1. [[Machine Learning/Machine Learning Notes\|Machine Learning Notes]]
-2. 
+1. [[Machine Learning/Math Primer\|Math Primer]] 
+2. [[Machine Learning/Machine Learning Notes\|Machine Learning Notes]]
+3. 
 
 Data Structures and Algorithms
 1. [[personal vault/Data Structures and Algorithms/DSA patterns\|DSA patterns]]
