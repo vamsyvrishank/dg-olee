@@ -22,7 +22,7 @@ Learnings
 	2. Dutch Partitioning Algorithm
 		1. [[personal vault/System Design/High Level Design/Sort Colors\|Sort Colors]]
 2. [[personal vault/Data Structures and Algorithms/To be Revisited/Two Pointers\|Two Pointers]]
-	1. Running from both ends
+	1. Running from both ends ( meet in the middle) ( "find a pair that satisfies condition X" + array is sorted or can be sorted.)
 		1. Two sum Problems
 			1. [[personal vault/Data Structures and Algorithms/To be Revisited/680. Valid Palindrome II\|680. Valid Palindrome II]]
 			2. [[personal vault/Data Structures and Algorithms/To be Revisited/1. 2Sum\|1. 2Sum]]
@@ -33,8 +33,10 @@ Learnings
 		3. [[Product of the array except self \|Product of the array except self ]]
 		4. [[personal vault/Data Structures and Algorithms/To be Revisited/Reverse a String\|Reverse a String]]
 		5. Others
-	2. Fast and Slow Pointers
+	2. Fast and Slow Pointers ( The structure has a cycle, OR you need the middle without knowing the length.)
 		1. Linked List operations ( detecting cycle,)
+		2. [[personal vault/Data Structures and Algorithms/To be Revisited/Find the duplicate Number 287\|Find the duplicate Number 287]]
+		3. 
 3. [[personal vault/Data Structures and Algorithms/To be Revisited/Sliding Window\|Sliding Window]]
 	1. Fixed Window Problems Below
 		1. [[personal vault/Data Structures and Algorithms/To be Revisited/Substrings of size k with distinct characters\|Substrings of size k with distinct characters]]

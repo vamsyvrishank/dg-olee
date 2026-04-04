@@ -107,3 +107,35 @@ public:
     }
 };
 ```
+
+
+Python code 
+
+```python
+
+class Solution:
+    def countGoodSubstrings(self, s: str) -> int:
+
+        start = 0
+        end = 0
+        n = len(s)
+        umap = defaultdict(int)
+        count = 0
+
+        while end < n:
+            umap[s[end]]+=1
+
+            if end-start+1==3:
+                if len(umap)==3:
+                    count+=1
+                #shrink
+                umap[s[start]]-=1
+                #remove key if value = 0
+                if umap[s[start]]==0:
+                    del umap[s[start]]
+
+                start+=1
+            end+=1
+        
+        return count 
+```

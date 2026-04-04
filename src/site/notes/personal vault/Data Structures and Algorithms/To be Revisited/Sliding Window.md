@@ -4,6 +4,236 @@
 
 
 
+### The Core Idea
+
+A window is just a contiguous subarray defined by `[L, R]`. You expand by moving `R` right, and shrink by moving `L` right. The goal is to avoid recomputing from scratch every time — instead you **update incrementally**.
+
+Brute force: O(n²) — recheck every subarray Sliding window: O(n) — each element enters and leaves the window at most once
+
+---
+
+### Two Flavors
+
+#### Fixed Size Window
+
+Window size `k` never changes. Both pointers move together.
+
+```
+find max sum of subarray of size 3:
+[2, 1, 5, 1, 3, 2],  k=3
+
+[2, 1, 5] → sum=8
+   [1, 5, 1] → sum=7   (subtract left, add right)
+      [5, 1, 3] → sum=9
+         [1, 3, 2] → sum=6
+
+answer: 9
+```
+
+Template:
+
+```python
+window_sum = sum(nums[:k])
+best = window_sum
+
+for i in range(k, len(nums)):
+    window_sum += nums[i] - nums[i - k]  # add new, drop old
+    best = max(best, window_sum)
+```
+
+**Key tell:** Problem gives you a fixed size k, asks for max/min/average.
+
+---
+
+#### Variable Size Window
+
+Window grows and shrinks based on a constraint. This is the more common and trickier flavor.
+
+```python
+L = 0
+for R in range(len(nums)):
+    # 1. add nums[R] to window state
+
+    while window violates constraint:
+        # 2. remove nums[L] from window state
+        L += 1
+
+    # 3. update answer
+```
+
+The `while` can also be an `if` for certain problems — depends on whether one shrink step is always enough.
+
+### Longest Valid Window
+
+```python
+L = 0
+R = 0
+# window state (sum, hashmap, counter, etc.)
+
+while R < len(nums):
+    # 1. add nums[R] to window state
+
+    while window violates constraint:
+        # 2. remove nums[L] from state
+        L += 1
+
+    # 3. update answer (window is valid here)
+    best = max(best, R - L + 1)
+
+    R += 1
+```
+
+---
+
+### Shortest Valid Window
+
+```python
+L = 0
+R = 0
+# window state
+
+while R < len(nums):
+    # 1. add nums[R] to window state
+
+    while window is valid:
+        # 3. update answer (window is valid here, inside the shrink loop)
+        best = min(best, R - L + 1)
+
+        # 2. remove nums[L], try to shrink further
+        L += 1
+
+    R += 1
+```
+
+---
+
+The only real difference is **where you record the answer**:
+
+- Longest → record **after** shrinking (window is guaranteed valid)
+- Shortest → record **inside** the shrink loop (record every time it's still valid before shrinking further)
+---
+
+### Variable Window: Two Sub-patterns
+
+#### "Longest window satisfying condition"
+
+Expand greedily, shrink only when you must.
+
+```
+Longest substring without repeating characters:
+"abcabcbb"
+
+a         valid, window=a
+ab        valid, window=ab
+abc       valid, window=abc
+abca  →   'a' repeats, shrink from left
+ bca      valid, window=bca
+ bcab →   'b' repeats, shrink
+  cab     valid
+  ...
+
+answer: 3 ("abc")
+```
+
+```python
+L = 0
+seen = {}
+best = 0
+
+for R in range(len(s)):
+    if s[R] in seen and seen[s[R]] >= L:
+        L = seen[s[R]] + 1      # shrink past the duplicate
+    seen[s[R]] = R
+    best = max(best, R - L + 1)
+```
+
+#### "Shortest window satisfying condition"
+
+Expand until valid, then shrink as much as possible while still valid.
+
+```
+Minimum window substring containing all of "ABC":
+"ADOBECODEBANC"
+
+expand until you have A, B, C → "ADOBEC"
+now shrink from left while still valid → "DOBECODEBA" ...
+keep shrinking → "BANC"
+
+answer: "BANC"
+```
+
+
+---
+
+### Window State Tracking
+
+The window itself is just `L` and `R`. But you usually need to track **what's inside** the window. Common structures:
+
+|What you need to track|Use|
+|---|---|
+|Character/element counts|`hashmap` or `array of size 26`|
+|Current sum|single integer|
+|Number of distinct elements|hashmap + counter|
+|Max/min inside window|monotonic deque|
+
+---
+
+### Identifying Sliding Window Problems
+
+|Signal|Example|
+|---|---|
+|"contiguous subarray/substring"|almost always sliding window|
+|"longest/shortest satisfying X"|variable window|
+|"exactly k distinct"|often window with hashmap|
+|"at most k"|variable window|
+|fixed size + aggregate|fixed window|
+
+**Strongest tell:** The constraint on the window is **monotonic** — meaning once the window becomes invalid, making it larger won't make it valid again. That's what allows you to move `L` forward without missing anything.
+
+---
+
+### Common Mistakes
+
+**1. Forgetting to shrink state when moving L**
+
+```python
+# WRONG — you removed L from window but didn't update your tracking
+L += 1
+
+# RIGHT
+count[nums[L]] -= 1
+L += 1
+```
+
+**2. Using while vs if incorrectly** Use `while` when one shrink step might not be enough (most cases). Use `if` only when you're maintaining exactly size k.
+
+**3. Updating the answer at the wrong place** For longest: update after the while loop (window is valid). For shortest: update inside the while loop (as long as window is valid, record it).
+
+---
+
+### Problem Map
+
+```
+Fixed size k → fixed window
+Longest subarray/substring with constraint → expand + shrink with while
+Shortest subarray/substring with constraint → expand until valid, shrink while valid
+Exactly k → often (at most k) - (at most k-1)
+```
+
+That last one — **exactly k = at most k minus at most k-1** — is a non-obvious trick worth remembering. Subarrays with exactly 2 distinct characters = (at most 2) - (at most 1).
+
+| Type      | Outer loop        | Inner while condition | Where to record      |
+| --------- | ----------------- | --------------------- | -------------------- |
+| Fixed k   | `R < n`           | not needed            | after add+remove     |
+| Longest   | `R < n`           | constraint violated   | after inner while    |
+| Shortest  | `R < n`           | constraint satisfied  | inside inner while   |
+| Exactly k | call helper twice | state > k             | `count += R - L + 1` |
+
+
+
+--- 
+
+
 Two types
 
 - Fixed size
@@ -224,7 +454,6 @@ variable :
                     }
                 }
             }
-    
             return ans;
             */
     
