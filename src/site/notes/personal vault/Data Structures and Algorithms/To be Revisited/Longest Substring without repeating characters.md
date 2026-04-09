@@ -59,3 +59,35 @@ public:
     }
 };
 ```
+
+
+longest valid window, 
+we check while the window is invalid we to keep ignoring based on the question.
+as soon as it becomes valid compute the answer.
+
+we used while inside the while.  why ? because if a single operation using if would always give us valid answer , then we can do it, but even after the ``` umap[s[start]]-=1```  we might see ``` umap[s[end]] > 1``` right , so we use while instead of if. 
+
+
+
+```python
+
+class Solution:
+    def lengthOfLongestSubstring(self, s: str) -> int:
+        
+        start = 0
+        end = 0
+        umap = defaultdict(int)
+        ans = 0
+        while end < len(s):
+            umap[s[end]]+=1
+
+            while umap[s[end]] >= 2:
+                umap[s[start]]-=1
+                if umap[s[start]]==0:
+                    del umap[s[start]]
+                start+=1
+            ans = max(ans , end-start+1)
+            end+=1
+
+        return ans
+```

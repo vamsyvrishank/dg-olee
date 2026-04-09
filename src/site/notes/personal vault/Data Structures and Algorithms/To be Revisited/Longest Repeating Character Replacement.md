@@ -61,3 +61,30 @@ public:
     }
 };
 ```
+
+
+Think about it, in order to replace characters your remaining length of the string after subtracting the maximum frequency should be less than k for us to be able to replace atmost k characters, then all the elements of the substring would be same and hence their length is one of the possible answers.
+```python
+
+class Solution:
+    def characterReplacement(self, s: str, k: int) -> int:
+
+        start = 0
+        end = 0
+        umap = defaultdict(int)
+        maxf = -10e9
+        ans = 0
+        while end < len(s):
+            umap[s[end]]+=1
+            maxf = max(maxf ,  umap[s[end]])
+
+            if end-start+1 -maxf <= k:
+                ans = max(ans , end-start+1)
+            else:
+                umap[s[start]]-=1
+                start+=1
+            end+=1
+        
+        return ans
+
+```

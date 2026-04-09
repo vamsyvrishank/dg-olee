@@ -136,19 +136,21 @@ public:
 };
 ```
 
+O(n) python
+```python
+class Solution:
+    def maxSubArray(self, nums: List[int]) -> int:
 
-
-# Comparison of Ridge Regression (L2) vs Lasso Regression (L1)
-
-| Feature                    | Ridge Regression (L2)                                                   | Lasso Regression (L1)                                                         |
-| -------------------------- | ----------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
-| **Regularization Type**    | \( L2 \text{ Norm: } \sum_{j=1}^p \beta_j^2 \)                          | \( L1 \text{ Norm: } \sum_{j=1}^p \|\beta_j\| \)                              |
-| **Effect on Coefficients** | Shrinks coefficients toward zero but never sets them to zero            | Shrinks coefficients and can set irrelevant ones **exactly to zero**          |
-| **Feature Selection**      | No (retains all predictors)                                             | Yes (performs feature selection by eliminating irrelevant predictors)         |
-| **Best When**              | Most features are relevant and/or highly correlated                     | Only a few features are truly relevant                                        |
-| **Solution Method**        | Closed-form solution: \( \beta = (X^T X + \lambda I)^{-1} X^TY \)       | No closed-form; uses iterative methods (e.g., coordinate descent)             |
-| **Used In**                | Portfolio optimization, factor models, multicollinearity-heavy datasets | Sparse models, feature selection in trading strategies, high-dimensional data |
-| **Interpretability**       | Lower (retains all features, even irrelevant ones)                      | Higher (removes noise by discarding irrelevant features)                      |
+        curr_sum = nums[0]
+        n = len(nums)
+        max_sum = curr_sum
+        for i in range(1,n):
+            curr_sum = max(curr_sum + nums[i] , nums[i])
+            max_sum = max(max_sum , curr_sum)
+        
+        return max_sum
+        
+```
 
 
 

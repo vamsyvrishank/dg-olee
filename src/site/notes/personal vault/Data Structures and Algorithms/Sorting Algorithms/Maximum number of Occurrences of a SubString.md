@@ -111,3 +111,41 @@ public:
     }
 };
 ```
+
+
+Python
+```python
+
+class Solution:
+    def maxFreq(self, s: str, maxLetters: int, minSize: int, maxSize: int) -> int:
+
+        start = 0
+        end = 0
+
+        umap_str = defaultdict(int)
+        umap_char = defaultdict(int)
+
+        n = len(s)
+        sstr = ""
+
+        while end < n:
+
+            umap_char[s[end]]+=1
+            if end-start+1 <= maxSize and end-start+1 >= minSize:
+
+                if len(umap_char) <= maxLetters:
+                    sstr = s[start:end+1]
+                    umap_str[sstr]+=1
+                umap_char[s[start]]-=1
+                if umap_char[s[start]] == 0:
+                    del umap_char[s[start]]
+
+                start+=1
+            end+=1
+        ans = 0
+        for i in umap_str.values():
+            ans = max(ans,i)
+
+
+        return ans
+```

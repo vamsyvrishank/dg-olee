@@ -37,6 +37,30 @@ Therefore, we return 0.
 - `1 <= k <= n`
 
 
+
+brute force : 
+
+```python
+
+class Solution:
+    def minimumRecolors(self, blocks: str, k: int) -> int:
+        n = len(blocks)
+        ans = float('inf')
+
+        for i in range(n-k+1):
+            count = 0
+            for j in range(i,i+k):
+                    if j < n and blocks[j] == "W":
+                        count+=1      
+            ans = min(ans,count)
+        return ans
+        
+        
+```
+
+
+
+sliding window variable 
 ```cpp
 class Solution {
 public:
@@ -69,4 +93,32 @@ public:
         return ans;
     }
 };
+```
+
+
+```python
+
+class Solution:
+    def minimumRecolors(self, blocks: str, k: int) -> int:
+
+        start = 0
+        end = 0
+        ans = float('inf')
+        count = 0
+
+        while end < len(blocks):
+            if blocks[end]=="W":
+                count+=1
+            if end - start + 1 == k:
+                ans = min(ans , count)
+
+                if blocks[start]=='W':
+                    count-=1
+                start+=1
+
+            end+=1
+        
+        return ans
+
+        
 ```

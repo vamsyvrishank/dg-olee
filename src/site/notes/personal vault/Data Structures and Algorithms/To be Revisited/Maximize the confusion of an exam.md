@@ -43,6 +43,7 @@ In both cases, there are five consecutive 'T's.
 - `1 <= k <= n`
 
 
+recomputing maxf is unnecessary 
 ```cpp
 class Solution {
 public:
@@ -78,3 +79,43 @@ public:
     }
 };
 ```
+
+SInce we only have two choice here, we can just count what those are and chose the max among them, this follows the same pattern, whenever we are trying to find the longest valid substring , we put while loop for invalid window,
+
+imagine if you put while loop for valid window, then you obviously store your answer and then shrink the window right , that is not correct , because once we found the longest answer why would we want to store the shorter window answer ? 
+Check the patterns once if you are confused. 
+
+the above code also works, just that when we have multiple answers, we will keep the max of that answer.
+```python
+
+class Solution:
+    def maxConsecutiveAnswers(self, answerKey: str, k: int) -> int:
+
+        start = 0
+        end = 0
+        ans = -1e10
+        t =0
+        f = 0
+
+        while end < len(answerKey):
+            if answerKey[end] == "T":
+                t += 1
+            else:
+                f += 1
+            # invalid window
+            while (end - start + 1) - max(t, f) > k:
+                if answerKey[start] == "T":
+                    t -= 1
+                else:
+                    f -= 1
+                start += 1
+
+            # valid window has arrived
+            ans = max(ans, end - start + 1)
+            end += 1
+        
+
+        return ans
+
+```
+

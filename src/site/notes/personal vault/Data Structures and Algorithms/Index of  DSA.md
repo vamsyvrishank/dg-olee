@@ -21,6 +21,9 @@ Learnings
 	1. [[personal vault/Data Structures and Algorithms/To be Revisited/Maximum SubArray Sum - Kadane\|Maximum SubArray Sum - Kadane]] 
 	2. Dutch Partitioning Algorithm
 		1. [[personal vault/System Design/High Level Design/Sort Colors\|Sort Colors]]
+	3. [[personal vault/Data Structures and Algorithms/To be Revisited/Remove Duplicates from Sorted Array\|Remove Duplicates from Sorted Array]]
+	4. [[personal vault/Data Structures and Algorithms/To be Revisited/Rotate Array LC 189\|Rotate Array LC 189]]
+	5. 
 2. [[personal vault/Data Structures and Algorithms/To be Revisited/Two Pointers\|Two Pointers]]
 	1. Running from both ends ( meet in the middle) ( "find a pair that satisfies condition X" + array is sorted or can be sorted.)
 		1. Two sum Problems
@@ -61,7 +64,7 @@ Learnings
 		7. [[personal vault/Data Structures and Algorithms/To be Revisited/Count number of nice subarrays\|Count number of nice subarrays]]  - Important
 		8. [[personal vault/Data Structures and Algorithms/To be Revisited/1438. Longest Continuous Subarray With Absolute Diff Less Than or Equal to Limit\|1438. Longest Continuous Subarray With Absolute Diff Less Than or Equal to Limit]]
 		9. 
-4. Stacks
+4. [[personal vault/Data Structures and Algorithms/To be Revisited/Stacks\|Stacks]]
 	1. [[personal vault/Data Structures and Algorithms/To be Revisited/Fundamental Stack Questions\|Fundamental Stack Questions]]
 	2. [[ Delete array elements which are smaller than next or become smaller\| Delete array elements which are smaller than next or become smaller]]
 	3. [[personal vault/Data Structures and Algorithms/To be Revisited/735. Asteroid Collision\|735. Asteroid Collision]]
